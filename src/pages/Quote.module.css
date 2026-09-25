@@ -1,0 +1,219 @@
+.wrap {
+  padding: 56px 0 88px;
+}
+
+.head {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 44px;
+  font-weight: 900;
+}
+
+.sub {
+  color: var(--text-soft);
+  font-size: 17px;
+  line-height: 1.55;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.bigCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  padding: 32px 24px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  box-shadow: 0 6px 18px rgba(22, 52, 94, 0.05);
+  color: var(--text);
+  text-decoration: none;
+  min-height: 100%;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.bigCard:hover,
+.bigCard:focus-visible {
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(22, 52, 94, 0.1);
+  border-color: #C5DBE9;
+}
+
+.circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circleGreen {
+  background: var(--green);
+  color: #ffffff;
+}
+
+.circleSky {
+  background: var(--sky);
+  color: #ffffff;
+}
+
+.circleNavy {
+  background: var(--navy);
+  color: #ffffff;
+}
+
+.cardLabel {
+  font-weight: 900;
+  color: var(--navy);
+  font-size: 20px;
+}
+
+.cardValue {
+  font-weight: 800;
+  color: var(--navy);
+  font-size: 18px;
+  word-break: break-word;
+}
+
+.cardHint {
+  color: var(--text-soft);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.emailCard {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  box-shadow: 0 6px 18px rgba(22, 52, 94, 0.05);
+}
+
+.emailIcon {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sky-tint);
+  color: var(--sky);
+}
+
+.emailBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.emailLabel {
+  font-weight: 900;
+  color: var(--navy);
+  font-size: 16px;
+}
+
+.emailLink {
+  color: var(--sky);
+  font-weight: 800;
+  font-size: 16px;
+  word-break: break-word;
+}
+
+.emailLink:hover {
+  text-decoration: underline;
+}
+
+.speedCard {
+  margin-top: 24px;
+  background: var(--green-tint);
+  border: 1px solid #C8E6D3;
+  border-radius: var(--radius-card);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.speedTitle {
+  color: var(--navy);
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.speedList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 24px;
+}
+
+.speedItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-size: 15.5px;
+}
+
+.speedIcon {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--green);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #C8E6D3;
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .title {
+    font-size: 34px;
+  }
+  .speedList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .wrap {
+    padding: 36px 0 64px;
+  }
+  .title {
+    font-size: 30px;
+  }
+  .emailCard {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
