@@ -14,10 +14,11 @@ export type ConfigSource = "live" | "draft" | "defaults";
 interface ConfigContextValue {
   config: SiteConfig;
   source: ConfigSource;
+  applyDraft: (next: SiteConfig) => void;
   clearDraft: () => void;
 }
 
-const DRAFT_STORAGE_KEY = "neatbliss-draft";
+export const DRAFT_STORAGE_KEY = "neatbliss-draft";
 
 const ConfigContext = createContext<ConfigContextValue | null>(null);
 
@@ -82,6 +83,19 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
     };
   }, [initialDraft]);
 
+  const applyDraft = useCallback((next: SiteConfig) => {
+    try {
+      window.localStorage.setItem(
+        DRAFT_STORAGE_KEY,
+        JSON.stringify(next, null, 2) + "\n",
+      );
+    } catch {
+      // ignore write failures; still show the draft in-memory
+    }
+    setConfig(next);
+    setSource("draft");
+  }, []);
+
   const clearDraft = useCallback(() => {
     try {
       window.localStorage.removeItem(DRAFT_STORAGE_KEY);
@@ -109,8 +123,8 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
   }, []);
 
   const value = useMemo<ConfigContextValue>(
-    () => ({ config, source, clearDraft }),
-    [config, source, clearDraft],
+    () => ({ config, source, applyDraft, clearDraft }),
+    [config, source, applyDraft, clearDraft],
   );
 
   return (
