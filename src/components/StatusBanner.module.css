@@ -1,0 +1,17 @@
+.banner {
+  background: var(--navy);
+  color: #ffffff;
+  font-weight: 700;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.icon {
+  flex: 0 0 auto;
+}
