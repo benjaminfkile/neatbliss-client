@@ -44,7 +44,17 @@
         "Inside the fridge and oven",
         "Closets and shelving wiped down",
         "Ready for the final walkthrough"
-      ]
+      ],
+      "icon": "truck"
+    },
+    {
+      "title": "Office cleaning",
+      "description": "Clean your office",
+      "included": [
+        "ben test 1",
+        "ben test 2"
+      ],
+      "icon": "key"
     }
   ],
   "testimonials": [
@@ -59,6 +69,10 @@
     {
       "quote": "[One more review, kept short and warm. Copy word for word from your Facebook page.]",
       "name": "[Client first name and last initial]"
+    },
+    {
+      "quote": "ben test test test....",
+      "name": "Ben Kile"
     }
   ],
   "admin": {
