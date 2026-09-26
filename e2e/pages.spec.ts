@@ -28,10 +28,13 @@ test.describe("Services and quote pages", () => {
     expect(response?.status()).toBe(200);
     const business = (loadConfig().business as { phone: string });
     const callLink = page.getByRole("link", { name: /Call us/i }).first();
-    const href = await callLink.getAttribute("href");
     const digits = business.phone.replace(/\D/g, "");
     if (digits.length > 0) {
-      expect(href).toContain(digits);
+      // Retries until the runtime config fetch has replaced the baked defaults.
+      await expect(callLink).toHaveAttribute("href", `tel:${digits}`);
+    } else {
+      const href = await callLink.getAttribute("href");
+      expect(href).toMatch(/^tel:/);
     }
   });
 });
