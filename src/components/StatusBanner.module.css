@@ -1,17 +1,41 @@
 .banner {
   background: var(--navy);
   color: #ffffff;
-  font-weight: 700;
-  padding: 12px 20px;
+  font-weight: 800;
+  padding: 16px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   text-align: center;
-  font-size: 15px;
+  font-size: 16.5px;
   line-height: 1.35;
 }
 
-.icon {
+@media (max-width: 640px) {
+  .banner {
+    font-size: 15px;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+}
+
+.iconCircle {
   flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--green-tint);
+  color: var(--green);
+}
+
+.icon {
+  display: block;
+}
+
+.message {
+  display: inline-block;
 }
