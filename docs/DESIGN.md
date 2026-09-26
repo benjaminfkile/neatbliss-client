@@ -51,7 +51,7 @@ Schema (zod, in `src/config/schema.ts`, exported as `configSchema` plus the infe
     facebookUrl: string,
     serviceArea: string      // "[CITY] and nearby areas"
   },
-  services: [ { title: string, description: string, included: string[] } ],  // min 1
+  services: [ { title: string, description: string, included: string[], icon?: string } ],  // min 1
   testimonials: [ { quote: string, name: string } ],
   admin: { githubEditUrl: string }  // used only by the admin page button
 }
@@ -109,7 +109,15 @@ Purpose: generate a valid `config.json` for a non technical owner. It writes not
 Cards (max width 880 centered):
 1. "Message at the top of the site": toggle (labeled Showing / Hidden) for `status.enabled`, textarea for `status.message`, helper text "Use this when your schedule is full or anything else clients should know before they reach out. Turn it off and the site shows no message.", preset chips that fill the textarea: "Not accepting new clients right now", "Only monthly deep cleans available", "Booked out until [MONTH]".
 2. "Business details": inputs for every `business` field with friendly uppercase labels (BUSINESS NAME, TAGLINE, PHONE (CALLS), PHONE (TEXTS), EMAIL, FACEBOOK PAGE LINK, SERVICE AREA).
-3. "Services": one row per service: title input, description textarea, included list editor (one line per item, a plain textarea with one item per line is fine), red outline trash button, dashed "+ Add a service" button. At least one service must remain; disable the last trash button.
+3. "Services": one row per service: title input, description textarea, included list editor (one line per item, a plain textarea with one item per line is fine), an ICON picker, red outline trash button, dashed "+ Add a service" button. At least one service must remain; disable the last trash button.
+
+### Service icons
+
+A fixed set of inline stroke SVG icons (feather style, 2px stroke, currentColor), defined once in `src/components/serviceIcons.tsx` as a name to component map. Names: `calendar`, `sparkles`, `box`, `house`, `spray`, `bucket`, `broom`, `bathtub`, `bed`, `window`, `truck`, `key`. Each icon must be clean and recognizable at 26px.
+
+- Schema: `services[].icon` is optional; when present it must be one of the names above. Missing or unknown names fall back to the original cycle (calendar, sparkles, box by index), so configs from before this field keep rendering identically.
+- Home service cards and the Services page both render the icon through one shared lookup helper.
+- Admin picker: under the service row's title, a labeled ICON row of tappable buttons (one per icon, 44px targets, the icon drawn inside), selected state = green tint background with navy stroke and `aria-pressed`; each button has an `aria-label` naming the icon. Picking one sets `icon`; new services default to `calendar` explicitly.
 4. "Testimonials": quote textarea + name input per row, trash, "+ Add a testimonial". Helper "Copy reviews word for word from your Facebook page."
 
 Sticky bottom bar (white, top border):
