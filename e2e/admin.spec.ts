@@ -78,6 +78,67 @@ test.describe("Admin flow", () => {
     expect(result.success).toBe(true);
   });
 
+  test("icon picker: pick house on service 1, preview, home card shows house; copy contains icon", async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+
+    await page.addInitScript(() => {
+      const nav = navigator as Navigator & {
+        clipboard: { writeText: (t: string) => Promise<void> };
+      };
+      const win = window as unknown as { __e2eClipboard?: string };
+      win.__e2eClipboard = "";
+      Object.defineProperty(nav, "clipboard", {
+        configurable: true,
+        value: {
+          writeText: async (text: string) => {
+            (window as unknown as { __e2eClipboard: string }).__e2eClipboard =
+              text;
+          },
+          readText: async () =>
+            (window as unknown as { __e2eClipboard: string }).__e2eClipboard,
+        },
+      });
+    });
+
+    await page.goto(ADMIN_ROUTE);
+    await expect(
+      page.getByRole("heading", { name: "NeatBliss site settings" }),
+    ).toBeVisible();
+
+    const iconGroup = page.getByRole("group", {
+      name: "Icon for service 1",
+    });
+    await expect(iconGroup).toBeVisible();
+    const houseBtn = iconGroup.getByRole("button", { name: "house" });
+    await houseBtn.click();
+    await expect(houseBtn).toHaveAttribute("aria-pressed", "true");
+
+    await page.getByRole("button", { name: "Preview my changes" }).click();
+    await expect(page).toHaveURL(/\/$/);
+
+    const firstCard = page.locator("article").first();
+    await expect(firstCard.locator('svg[data-icon="house"]')).toBeVisible();
+
+    await page.goto(ADMIN_ROUTE);
+    await page.getByRole("button", { name: "Copy my settings" }).click();
+    await expect(page.getByRole("button", { name: "Copied!" })).toBeVisible();
+
+    const clipboardText = await page.evaluate(
+      () =>
+        (window as unknown as { __e2eClipboard?: string }).__e2eClipboard ?? "",
+    );
+    expect(clipboardText.length).toBeGreaterThan(0);
+    const parsed = JSON.parse(clipboardText);
+    const result = configSchema.safeParse(parsed);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.services[0].icon).toBe("house");
+    }
+  });
+
   test("weird phone number shows an inline error and blocks copying", async ({
     page,
   }) => {

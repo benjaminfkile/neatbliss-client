@@ -2,18 +2,16 @@ import { Link } from "react-router-dom";
 import { useConfig } from "../config/ConfigProvider";
 import { LogoBadge } from "../components/LogoBadge";
 import {
-  BoxIcon,
-  CalendarIcon,
   HeartIcon,
   MapPinIcon,
   SparkleIcon,
   StarIcon,
 } from "../components/icons";
+import { getServiceIcon } from "../components/serviceIcons";
 import { serviceAreaCity } from "../lib/serviceArea";
 import { smsHref, telHref } from "../lib/phone";
 import styles from "./Home.module.css";
 
-const SERVICE_ICONS = [CalendarIcon, SparkleIcon, BoxIcon];
 const SERVICE_ICON_TINTS = [
   styles.serviceIcon,
   `${styles.serviceIcon} ${styles.serviceIconGreen}`,
@@ -109,7 +107,7 @@ export function HomePage() {
           </div>
           <div className={styles.grid3}>
             {services.map((service, i) => {
-              const Icon = SERVICE_ICONS[i % SERVICE_ICONS.length];
+              const Icon = getServiceIcon(service.icon, i);
               const iconClass =
                 SERVICE_ICON_TINTS[i % SERVICE_ICON_TINTS.length];
               return (

@@ -5,6 +5,7 @@ export interface FormServiceState {
   title: string;
   description: string;
   included: string;
+  icon: string;
 }
 
 export interface FormTestimonialState {
@@ -36,6 +37,7 @@ export function configToForm(cfg: SiteConfig): FormState {
       title: s.title,
       description: s.description,
       included: s.included.join("\n"),
+      icon: s.icon ?? "",
     })),
     testimonials: cfg.testimonials.map((t) => ({
       id: newRowId("t"),
@@ -50,13 +52,17 @@ export function formToConfig(form: FormState): SiteConfig {
   return {
     status: { enabled: form.status.enabled, message: form.status.message },
     business: { ...form.business },
-    services: form.services.map((s) => ({
-      title: s.title,
-      description: s.description,
-      included: s.included
-        .split("\n")
-        .filter((line) => line.trim().length > 0),
-    })),
+    services: form.services.map((s) => {
+      const built: SiteConfig["services"][number] = {
+        title: s.title,
+        description: s.description,
+        included: s.included
+          .split("\n")
+          .filter((line) => line.trim().length > 0),
+      };
+      if (s.icon) built.icon = s.icon;
+      return built;
+    }),
     testimonials: form.testimonials.map((t) => ({
       quote: t.quote,
       name: t.name,
@@ -75,6 +81,7 @@ export function emptyService(): FormServiceState {
     title: "",
     description: "",
     included: "",
+    icon: "calendar",
   };
 }
 
