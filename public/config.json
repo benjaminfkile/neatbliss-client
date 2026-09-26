@@ -1,7 +1,7 @@
 {
   "status": {
-    "enabled": false,
-    "message": ""
+    "enabled": true,
+    "message": "Only monthly deep cleans available"
   },
   "business": {
     "name": "NeatBliss Cleaning",
