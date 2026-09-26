@@ -77,4 +77,34 @@ test.describe("Admin flow", () => {
     const result = configSchema.safeParse(parsed);
     expect(result.success).toBe(true);
   });
+
+  test("weird phone number shows an inline error and blocks copying", async ({
+    page,
+  }) => {
+    await page.goto(ADMIN_ROUTE);
+    await expect(
+      page.getByRole("heading", { name: "NeatBliss site settings" }),
+    ).toBeVisible();
+
+    const phoneBox = page.getByLabel("PHONE (CALLS)", { exact: true });
+    await phoneBox.fill("406-450-42477");
+
+    await expect(
+      page
+        .getByText("Enter a 10 digit phone number, like (406) 450-4247")
+        .first(),
+    ).toBeVisible();
+
+    await page.getByRole("button", { name: "Copy my settings" }).click();
+    await expect(page.getByRole("button", { name: "Copied!" })).toHaveCount(0);
+    await expect(page.getByText(/business\.phone/).first()).toBeVisible();
+
+    // A valid number formats itself on blur and clears the error.
+    await phoneBox.fill("4064504247");
+    await phoneBox.blur();
+    await expect(phoneBox).toHaveValue("(406) 450-4247");
+    await expect(
+      page.getByText("Enter a 10 digit phone number, like (406) 450-4247"),
+    ).toHaveCount(0);
+  });
 });

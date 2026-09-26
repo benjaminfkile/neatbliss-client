@@ -1,4 +1,36 @@
 import { z } from "zod";
+import { isValidUsPhone } from "../lib/phone";
+
+/**
+ * Bracketed values like [PHONE NUMBER] are intentional placeholders that
+ * ship before the owner enters real content; they always validate.
+ */
+export function isPlaceholder(value: string): boolean {
+  return /^\[.*\]$/.test(value.trim());
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export function isValidEmail(value: string): boolean {
+  return EMAIL_RE.test(value.trim());
+}
+
+export const PHONE_MESSAGE =
+  "Enter a 10 digit phone number, like (406) 450-4247";
+export const EMAIL_MESSAGE =
+  "Enter a valid email address, like name@example.com";
+
+const phoneField = z
+  .string()
+  .refine((v) => isPlaceholder(v) || isValidUsPhone(v), {
+    message: PHONE_MESSAGE,
+  });
+
+const emailField = z
+  .string()
+  .refine((v) => isPlaceholder(v) || isValidEmail(v), {
+    message: EMAIL_MESSAGE,
+  });
 
 export const configSchema = z.object({
   status: z.object({
@@ -8,9 +40,9 @@ export const configSchema = z.object({
   business: z.object({
     name: z.string().min(1),
     tagline: z.string(),
-    phone: z.string(),
-    textNumber: z.string(),
-    email: z.string(),
+    phone: phoneField,
+    textNumber: phoneField,
+    email: emailField,
     facebookUrl: z.string(),
     serviceArea: z.string(),
   }),

@@ -305,6 +305,16 @@
   background: var(--sky-tint);
 }
 
+.inputInvalid {
+  border-color: #D07070;
+}
+
+.fieldError {
+  font-size: 13px;
+  font-weight: 700;
+  color: #8A2222;
+}
+
 .errorNote {
   background: #FDECEC;
   border: 1px solid #F5B7B7;

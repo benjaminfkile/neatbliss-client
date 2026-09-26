@@ -2,6 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useConfig } from "../config/ConfigProvider";
 import {
+  EMAIL_MESSAGE,
+  PHONE_MESSAGE,
+  isPlaceholder,
+  isValidEmail,
+} from "../config/schema";
+import { formatUsPhone, isValidUsPhone } from "../lib/phone";
+import {
   configToForm,
   emptyService,
   emptyTestimonial,
@@ -49,6 +56,13 @@ export function AdminPage() {
   const [fallbackText, setFallbackText] = useState<string>("");
   const fallbackRef = useRef<HTMLTextAreaElement | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!errorMessage) return;
+    if (validateForm(form).ok) {
+      setErrorMessage(null);
+    }
+  }, [form, errorMessage]);
 
   useEffect(() => {
     if (copyState !== "copied") return;
@@ -181,6 +195,11 @@ export function AdminPage() {
     copyState === "copied" ? "Copied!" : "Copy my settings";
   const lastServiceOnly = form.services.length <= 1;
 
+  const phoneFieldError = (value: string) =>
+    isPlaceholder(value) || isValidUsPhone(value) ? undefined : PHONE_MESSAGE;
+  const emailFieldError = (value: string) =>
+    isPlaceholder(value) || isValidEmail(value) ? undefined : EMAIL_MESSAGE;
+
   return (
     <div className={styles.page}>
       <header className={styles.topBar}>
@@ -281,16 +300,27 @@ export function AdminPage() {
               label="PHONE (CALLS)"
               value={form.business.phone}
               onChange={(v) => updateBusiness({ phone: v })}
+              onBlur={() =>
+                updateBusiness({ phone: formatUsPhone(form.business.phone) })
+              }
+              error={phoneFieldError(form.business.phone)}
             />
             <BusinessField
               label="PHONE (TEXTS)"
               value={form.business.textNumber}
               onChange={(v) => updateBusiness({ textNumber: v })}
+              onBlur={() =>
+                updateBusiness({
+                  textNumber: formatUsPhone(form.business.textNumber),
+                })
+              }
+              error={phoneFieldError(form.business.textNumber)}
             />
             <BusinessField
               label="EMAIL"
               value={form.business.email}
               onChange={(v) => updateBusiness({ email: v })}
+              error={emailFieldError(form.business.email)}
             />
             <BusinessField
               label="FACEBOOK PAGE LINK"
@@ -510,20 +540,40 @@ interface BusinessFieldProps {
   label: string;
   value: string;
   onChange: (v: string) => void;
+  onBlur?: () => void;
+  error?: string;
   full?: boolean;
 }
 
-function BusinessField({ label, value, onChange, full }: BusinessFieldProps) {
+function BusinessField({
+  label,
+  value,
+  onChange,
+  onBlur,
+  error,
+  full,
+}: BusinessFieldProps) {
+  const errorId = `field-error-${label.replace(/\W+/g, "-").toLowerCase()}`;
   return (
-    <label className={`${styles.field} ${full ? styles.fieldFull : ""}`}>
-      <span className={styles.fieldLabel}>{label}</span>
-      <input
-        className={styles.input}
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    </label>
+    <div className={`${styles.field} ${full ? styles.fieldFull : ""}`}>
+      <label className={styles.field}>
+        <span className={styles.fieldLabel}>{label}</span>
+        <input
+          className={`${styles.input} ${error ? styles.inputInvalid : ""}`}
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errorId : undefined}
+        />
+      </label>
+      {error && (
+        <span id={errorId} className={styles.fieldError}>
+          {error}
+        </span>
+      )}
+    </div>
   );
 }
 
