@@ -7,7 +7,6 @@
   justify-content: center;
   padding: 20px;
   z-index: 200;
-  animation: fadeIn 150ms ease-out;
 }
 
 .card {
@@ -56,18 +55,15 @@
   min-width: 120px;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
+/*
+ * Keyframes deliberately touch only transform: the modal must stay fully
+ * visible even if the animation never plays.
+ */
 @keyframes cardIn {
   from {
-    opacity: 0;
     transform: scale(0.96);
   }
   to {
-    opacity: 1;
     transform: scale(1);
   }
 }
