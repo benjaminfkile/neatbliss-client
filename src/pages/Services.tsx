@@ -1,14 +1,9 @@
 import { Link } from "react-router-dom";
 import { useConfig } from "../config/ConfigProvider";
-import {
-  BoxIcon,
-  CalendarIcon,
-  CheckIcon,
-  SparkleIcon,
-} from "../components/icons";
+import { CheckIcon } from "../components/icons";
+import { getServiceIcon } from "../components/serviceIcons";
 import styles from "./Services.module.css";
 
-const SERVICE_ICONS = [CalendarIcon, SparkleIcon, BoxIcon];
 const SERVICE_ICON_CLASSES = [
   `${styles.icon} ${styles.iconSky}`,
   `${styles.icon} ${styles.iconGreen}`,
@@ -32,7 +27,7 @@ export function ServicesPage() {
 
         <div className={styles.grid}>
           {services.map((service, i) => {
-            const Icon = SERVICE_ICONS[i % SERVICE_ICONS.length];
+            const Icon = getServiceIcon(service.icon, i);
             const iconClass =
               SERVICE_ICON_CLASSES[i % SERVICE_ICON_CLASSES.length];
             return (

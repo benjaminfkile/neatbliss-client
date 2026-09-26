@@ -75,6 +75,7 @@ describe("admin form helpers", () => {
           title: "T",
           description: "D",
           included: "one\n\n  \ntwo\nthree",
+          icon: "",
         },
       ],
       testimonials: [],
@@ -82,6 +83,46 @@ describe("admin form helpers", () => {
     };
     const cfg = formToConfig(form);
     expect(cfg.services[0].included).toEqual(["one", "two", "three"]);
+  });
+
+  it("formToConfig omits the icon key when the form value is empty", () => {
+    const form: FormState = {
+      status: { enabled: false, message: "" },
+      business: { ...defaultConfig.business },
+      services: [
+        {
+          id: "s-x",
+          title: "T",
+          description: "D",
+          included: "one",
+          icon: "",
+        },
+      ],
+      testimonials: [],
+      admin: { githubEditUrl: "https://example.com" },
+    };
+    const cfg = formToConfig(form);
+    expect("icon" in cfg.services[0]).toBe(false);
+  });
+
+  it("formToConfig keeps a selected icon on the service", () => {
+    const form: FormState = {
+      status: { enabled: false, message: "" },
+      business: { ...defaultConfig.business },
+      services: [
+        {
+          id: "s-x",
+          title: "T",
+          description: "D",
+          included: "one",
+          icon: "house",
+        },
+      ],
+      testimonials: [],
+      admin: { githubEditUrl: "https://example.com" },
+    };
+    const cfg = formToConfig(form);
+    expect(cfg.services[0].icon).toBe("house");
   });
 
   it("validateForm produces JSON that reparses to the same config", () => {

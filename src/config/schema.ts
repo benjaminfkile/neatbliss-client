@@ -1,5 +1,8 @@
 import { z } from "zod";
 import { isValidUsPhone } from "../lib/phone";
+import { SERVICE_ICON_NAMES } from "../components/serviceIcons";
+
+export const ICON_MESSAGE = `Pick an icon: ${SERVICE_ICON_NAMES.join(", ")}`;
 
 /**
  * Bracketed values like [PHONE NUMBER] are intentional placeholders that
@@ -52,6 +55,13 @@ export const configSchema = z.object({
         title: z.string(),
         description: z.string(),
         included: z.array(z.string()),
+        icon: z
+          .string()
+          .refine(
+            (v) => (SERVICE_ICON_NAMES as readonly string[]).includes(v),
+            { message: ICON_MESSAGE },
+          )
+          .optional(),
       }),
     )
     .min(1),

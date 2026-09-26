@@ -77,4 +77,42 @@ describe("configSchema", () => {
     const result = configSchema.safeParse(bad);
     expect(result.success).toBe(false);
   });
+
+  it("accepts a service with a valid icon name", () => {
+    const good = {
+      ...defaultConfig,
+      services: [
+        {
+          ...defaultConfig.services[0],
+          icon: "house",
+        },
+        ...defaultConfig.services.slice(1),
+      ],
+    };
+    expect(configSchema.safeParse(good).success).toBe(true);
+  });
+
+  it("accepts a service with no icon field", () => {
+    expect(configSchema.safeParse(defaultConfig).success).toBe(true);
+  });
+
+  it("rejects an unknown icon name with a friendly message", () => {
+    const bad = {
+      ...defaultConfig,
+      services: [
+        {
+          ...defaultConfig.services[0],
+          icon: "banana",
+        },
+        ...defaultConfig.services.slice(1),
+      ],
+    };
+    const result = configSchema.safeParse(bad);
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      const message = result.error.issues[0]?.message ?? "";
+      expect(message).toMatch(/calendar/);
+      expect(message).toMatch(/key/);
+    }
+  });
 });

@@ -15,6 +15,11 @@ import {
   validateForm,
   type FormState,
 } from "./Admin.helpers";
+import {
+  SERVICE_ICON_NAMES,
+  getServiceIcon,
+  getServiceIconName,
+} from "../components/serviceIcons";
 import styles from "./Admin.module.css";
 
 const PRESET_MESSAGES = [
@@ -380,6 +385,40 @@ export function AdminPage() {
                     }
                   />
                 </label>
+                <div className={styles.field}>
+                  <span className={styles.fieldLabel}>ICON</span>
+                  <div
+                    className={styles.iconPicker}
+                    role="group"
+                    aria-label={`Icon for service ${index + 1}`}
+                  >
+                    {SERVICE_ICON_NAMES.map((name) => {
+                      const Icon = getServiceIcon(name, index);
+                      const selectedName = getServiceIconName(
+                        service.icon,
+                        index,
+                      );
+                      const isSelected =
+                        service.icon !== ""
+                          ? service.icon === name
+                          : selectedName === name;
+                      return (
+                        <button
+                          key={name}
+                          type="button"
+                          className={`${styles.iconBtn} ${
+                            isSelected ? styles.iconBtnSelected : ""
+                          }`}
+                          aria-pressed={isSelected}
+                          aria-label={name}
+                          onClick={() => patchService(index, { icon: name })}
+                        >
+                          <Icon size={22} />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
                 <div className={styles.field}>
                   <label
                     className={styles.fieldLabel}
