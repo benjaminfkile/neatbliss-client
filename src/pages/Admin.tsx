@@ -250,16 +250,19 @@ export function AdminPage() {
               <span className={styles.toggleKnob} aria-hidden="true" />
             </button>
           </label>
-          <label className={styles.field}>
-            <span className={styles.fieldLabel}>MESSAGE</span>
+          <div className={styles.field}>
+            <label className={styles.fieldLabel} htmlFor="status-message">
+              MESSAGE
+            </label>
             <textarea
+              id="status-message"
               className={styles.textarea}
               rows={3}
               value={form.status.message}
               onChange={(e) => updateStatus({ message: e.target.value })}
               placeholder="Write a short note visitors will see at the top of every page."
             />
-          </label>
+          </div>
           <p className={styles.help}>
             Use this when your schedule is full or anything else clients should
             know before they reach out. Turn it off and the site shows no
@@ -377,9 +380,15 @@ export function AdminPage() {
                     }
                   />
                 </label>
-                <label className={styles.field}>
-                  <span className={styles.fieldLabel}>DESCRIPTION</span>
+                <div className={styles.field}>
+                  <label
+                    className={styles.fieldLabel}
+                    htmlFor={`service-description-${service.id}`}
+                  >
+                    DESCRIPTION
+                  </label>
                   <textarea
+                    id={`service-description-${service.id}`}
                     className={styles.textarea}
                     rows={3}
                     value={service.description}
@@ -387,10 +396,16 @@ export function AdminPage() {
                       patchService(index, { description: e.target.value })
                     }
                   />
-                </label>
-                <label className={styles.field}>
-                  <span className={styles.fieldLabel}>INCLUDED</span>
+                </div>
+                <div className={styles.field}>
+                  <label
+                    className={styles.fieldLabel}
+                    htmlFor={`service-included-${service.id}`}
+                  >
+                    INCLUDED
+                  </label>
                   <textarea
+                    id={`service-included-${service.id}`}
                     className={styles.textarea}
                     rows={4}
                     value={service.included}
@@ -400,7 +415,7 @@ export function AdminPage() {
                     placeholder="One item per line."
                   />
                   <span className={styles.help}>One item per line.</span>
-                </label>
+                </div>
               </div>
             ))}
             <button
@@ -435,9 +450,15 @@ export function AdminPage() {
                     <TrashIcon />
                   </button>
                 </div>
-                <label className={styles.field}>
-                  <span className={styles.fieldLabel}>QUOTE</span>
+                <div className={styles.field}>
+                  <label
+                    className={styles.fieldLabel}
+                    htmlFor={`testimonial-quote-${t.id}`}
+                  >
+                    QUOTE
+                  </label>
                   <textarea
+                    id={`testimonial-quote-${t.id}`}
                     className={styles.textarea}
                     rows={4}
                     value={t.quote}
@@ -445,7 +466,7 @@ export function AdminPage() {
                       patchTestimonial(index, { quote: e.target.value })
                     }
                   />
-                </label>
+                </div>
                 <label className={styles.field}>
                   <span className={styles.fieldLabel}>NAME</span>
                   <input
