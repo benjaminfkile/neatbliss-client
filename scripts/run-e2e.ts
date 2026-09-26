@@ -3,6 +3,7 @@ import { createConnection } from "node:net";
 
 const PORT = Number(process.env.E2E_PORT ?? 4173);
 const HOST = "127.0.0.1";
+const useShell = process.platform === "win32";
 
 function log(message: string): void {
   process.stdout.write(`[e2e] ${message}\n`);
@@ -34,6 +35,7 @@ async function main(): Promise<void> {
   log("building app");
   const build = spawnSync("npm", ["run", "build"], {
     stdio: "inherit",
+    shell: useShell,
     env: { ...process.env, VITE_BASE: "/" },
   });
   if (build.status !== 0) {
@@ -44,11 +46,18 @@ async function main(): Promise<void> {
   const preview: ChildProcess = spawn(
     "npx",
     ["vite", "preview", "--host", HOST, "--port", String(PORT), "--strictPort"],
-    { stdio: "inherit" },
+    { stdio: "inherit", shell: useShell },
   );
 
   const cleanup = () => {
-    if (!preview.killed) {
+    if (preview.killed) {
+      return;
+    }
+    if (useShell && preview.pid) {
+      // On Windows the child is a shell wrapper; kill the whole tree so the
+      // preview server does not outlive this script.
+      spawnSync("taskkill", ["/pid", String(preview.pid), "/T", "/F"], { stdio: "ignore" });
+    } else {
       preview.kill("SIGTERM");
     }
   };
@@ -74,6 +83,7 @@ async function main(): Promise<void> {
   log("running Playwright");
   const tests = spawnSync("npx", ["playwright", "test"], {
     stdio: "inherit",
+    shell: useShell,
     env: { ...process.env, E2E_PORT: String(PORT) },
   });
 

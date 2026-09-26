@@ -52,33 +52,39 @@ export const defaultConfig: SiteConfig = {
   },
   services: [
     {
-      title: "Recurring cleans",
+      title: "Recurring cleaning",
       description:
-        "Weekly, biweekly, or monthly cleans to keep your home feeling fresh without you thinking about it.",
+        "Weekly, every other week, or monthly. We keep your home consistently fresh so you never fall behind.",
       included: [
-        "Kitchens, bathrooms, bedrooms, and living areas",
-        "Dusting, vacuuming, and mopping",
-        "Trash out and surfaces wiped down",
+        "Dusting all surfaces",
+        "Vacuum and mop all floors",
+        "Kitchen counters, sink, and outside of appliances",
+        "Bathrooms: toilets, tubs, showers, and mirrors",
+        "Trash out and beds made",
       ],
     },
     {
-      title: "Deep cleans",
+      title: "Deep cleaning",
       description:
-        "A top to bottom reset for a home that needs extra attention, or a great starting point before recurring service.",
+        "A top to bottom reset. Baseboards, fixtures, appliances, and all the spots regular cleans miss.",
       included: [
-        "Everything in a standard clean",
-        "Baseboards, doors, and light fixtures",
-        "Inside the microwave and behind small appliances",
+        "Everything in a recurring clean",
+        "Baseboards, door frames, and switch plates",
+        "Light fixtures and ceiling fans",
+        "Window sills and tracks",
+        "Cabinet fronts and inside the microwave",
       ],
     },
     {
-      title: "Move in or move out cleans",
+      title: "Move in and move out",
       description:
-        "Getting a place ready for the next chapter, whether you are moving in fresh or handing keys back.",
+        "Empty home cleans that help you get your deposit back, or start fresh in a new place.",
       included: [
-        "Inside cabinets, drawers, and the oven",
-        "Inside the fridge and freezer",
-        "Every surface reset for the next family",
+        "Everything in a deep clean",
+        "Inside cabinets and drawers",
+        "Inside the fridge and oven",
+        "Closets and shelving wiped down",
+        "Ready for the final walkthrough",
       ],
     },
   ],
@@ -100,6 +106,6 @@ export const defaultConfig: SiteConfig = {
     },
   ],
   admin: {
-    githubEditUrl: "[GITHUB EDIT URL FOR public/config.json]",
+    githubEditUrl: "https://github.com/benjaminfkile/neatbliss-client/edit/main/public/config.json",
   },
 };
