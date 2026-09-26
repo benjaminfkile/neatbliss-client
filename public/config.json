@@ -6,11 +6,11 @@
   "business": {
     "name": "NeatBliss Cleaning",
     "tagline": "Come home to a little bliss.",
-    "phone": "[PHONE NUMBER]",
-    "textNumber": "[TEXT NUMBER]",
-    "email": "[EMAIL ADDRESS]",
+    "phone": "406-450-4247",
+    "textNumber": "406-450-4247",
+    "email": "neatblisscleaning@gmail.com",
     "facebookUrl": "https://www.facebook.com/profile.php?id=61579026047637",
-    "serviceArea": "[CITY] and nearby areas"
+    "serviceArea": "Conrad, MT"
   },
   "services": [
     {
