@@ -5,10 +5,11 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import { ConfigProvider } from "./config/ConfigProvider";
+import { ConfigProvider, useConfig } from "./config/ConfigProvider";
 import { NavBar } from "./components/NavBar";
 import { Footer } from "./components/Footer";
 import { StatusBanner } from "./components/StatusBanner";
+import { StatusNoticeModal } from "./components/StatusNoticeModal";
 import { PreviewPill } from "./components/PreviewPill";
 import { HomePage } from "./pages/Home";
 import { ServicesPage } from "./pages/Services";
@@ -18,6 +19,7 @@ import { ADMIN_ROUTE } from "./routes";
 import { useEffect } from "react";
 
 function PublicLayout({ children }: { children: React.ReactNode }) {
+  const { config, source } = useConfig();
   return (
     <>
       <StatusBanner />
@@ -25,6 +27,11 @@ function PublicLayout({ children }: { children: React.ReactNode }) {
       {children}
       <Footer />
       <PreviewPill />
+      <StatusNoticeModal
+        enabled={config.status.enabled}
+        message={config.status.message}
+        disabled={source === "draft"}
+      />
     </>
   );
 }
