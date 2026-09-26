@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { LogoBadge } from "./LogoBadge";
 import { useConfig } from "../config/ConfigProvider";
+import { telHref } from "../lib/phone";
 import styles from "./Footer.module.css";
 
 export function Footer() {
@@ -42,8 +43,12 @@ export function Footer() {
         <div className={styles.col}>
           <h3 className={styles.colHeading}>CONTACT</h3>
           <ul>
-            <li>{business.phone}</li>
-            <li>{business.email}</li>
+            <li>
+              <a href={telHref(business.phone)}>{business.phone}</a>
+            </li>
+            <li>
+              <a href={`mailto:${business.email.trim()}`}>{business.email}</a>
+            </li>
             <li>
               <a href={business.facebookUrl} target="_blank" rel="noreferrer">
                 Facebook page

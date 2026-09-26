@@ -19,4 +19,27 @@ test.describe("Home page", () => {
       ).toBeVisible();
     }
   });
+
+  test("footer phone and email are tappable links", async ({ page }) => {
+    const business = loadConfig().business as {
+      phone: string;
+      email: string;
+    };
+
+    await page.goto("/");
+    const footer = page.locator("footer");
+
+    const phoneLink = footer.getByRole("link", { name: business.phone });
+    const digits = business.phone.replace(/\D/g, "");
+    await expect(phoneLink).toHaveAttribute(
+      "href",
+      digits.length > 0 ? `tel:${digits}` : /^tel:/,
+    );
+
+    const emailLink = footer.getByRole("link", { name: business.email });
+    await expect(emailLink).toHaveAttribute(
+      "href",
+      `mailto:${business.email}`,
+    );
+  });
 });
