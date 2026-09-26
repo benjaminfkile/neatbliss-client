@@ -69,7 +69,15 @@ Default values are the placeholder content in this document. Bracketed values li
 - `/7ae5fff6-e9af-4876-86b8-8dfb7a1a0811` Admin (hidden; never linked from the site; renders `<meta name="robots" content="noindex">` via a head effect)
 - Unknown paths redirect to `/`.
 
-Status banner: when `status.enabled` and message non empty, a navy bar with white 700 weight text and a small info icon at the very top of every public page (not the admin page). No dismiss button.
+Status banner: when `status.enabled` and message non empty, a navy bar at the very top of every public page (not the admin page). No dismiss button. Prominence: 16.5px (15px mobile) 800 weight white text, comfortable vertical padding, and a megaphone icon inside a small green tinted circle so the bar reads as an announcement rather than chrome.
+
+Status notice modal: the same message also opens once as a modal so it cannot be missed.
+- Shows on public routes when `status.enabled` and the message is non empty, except while previewing a draft (`source === "draft"`), and never on the admin route.
+- Once per browser session per message: sessionStorage key `neatbliss-notice-seen` stores the message text; the modal opens only when the stored value differs from the current message. Dismissing stores it. A changed message shows again; a new tab or later session shows again.
+- Look: dim navy backdrop (rgba(15, 36, 64, 0.55)), centered white card (max width 420px, radius 20px, padded), megaphone icon in a green tint circle, heading "A quick note", the message in 17px navy, green pill button "Got it". Close via the button, the backdrop, or Escape.
+- Accessibility: role dialog, aria-modal, labelled by the heading, described by the message; focus moves to the dialog on open and back afterwards; background scroll locked while open.
+- Motion: gentle fade and scale in (about 150ms), skipped entirely under prefers-reduced-motion.
+- The banner stays visible after the modal is dismissed.
 
 ## Pages (copy is final unless bracketed)
 
