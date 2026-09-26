@@ -175,13 +175,13 @@ export function HomePage() {
           </p>
           <div className={styles.ctaActions}>
             <a href={telHref(business.phone)} className="pill pill--green">
-              Call us
+              Call {business.phone}
             </a>
             <a
               href={smsHref(business.textNumber)}
               className={`pill ${styles.ctaOutline}`}
             >
-              Text us
+              Text {business.textNumber}
             </a>
             <a
               href={business.facebookUrl}
